@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "Resource_M.h"
 #include "Kismet/GameplayStatics.h"
+#include "BuildingPart.h"
 #include "PlayerChar.generated.h"
 
 UCLASS()
@@ -47,7 +48,7 @@ public:
 	UPROPERTY(VisibleAnywhere) //Makes sure the camera is able to be controlled
 		UCameraComponent* PlayerCamComp;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats") // Creates player stats
 		float Health = 100.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
@@ -56,7 +57,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
 		float Stamina = 100.0f;
 
-	UPROPERTY(EditAnywhere, Category = "Resources")
+	UPROPERTY(EditAnywhere, Category = "Resources") // Sets Resources into property that you could edit and puts into category
 		int Wood;
 
 	UPROPERTY(EditAnywhere, Category = "Resources")
@@ -71,10 +72,22 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Resources")
 		TArray<FString> ResourcesNameArray;
 
-	UPROPERTY(EditAnywhere, Category = "HitMarker")
+	UPROPERTY(EditAnywhere, Category = "HitMarker") // Creates Property for decal
 		UMaterialInterface* hitDecal;
 
-	UFUNCTION(BlueprintCallable)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building Supplies")//Creates Building Array for supplies
+		TArray<int> BuildingArray;
+
+	UPROPERTY() //Bool for if you are building or not
+		bool isBuilding;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite) // Adds Building parts
+		TSubclassOf<ABuildingPart> BuildPartClass;
+
+	UPROPERTY() // Spawn part at certain location
+		ABuildingPart* spawnedPart; 
+
+	UFUNCTION(BlueprintCallable) // Sets function for health, hunger, and stamina
 		void SetHealth(float amount);
 
 	UFUNCTION(BlueprintCallable)
@@ -86,6 +99,15 @@ public:
 	UFUNCTION()
 		void DecreaseStats();
 
-	UFUNCTION()
+	UFUNCTION() // Function to collect resources
 		void GiveResource(float amount, FString resourceType);
+
+	UFUNCTION(BlueprintCallable)
+		void UpdateResources(float woodAmount, float stoneAmount, FString buildingObject);
+
+	UFUNCTION(BlueprintCallable)
+		void SpawnBuilding(int buildingID, bool& isSuccess);
+
+	UFUNCTION()
+		void RotateBuilding();
 };
