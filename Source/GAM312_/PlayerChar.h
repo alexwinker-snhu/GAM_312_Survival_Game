@@ -8,6 +8,7 @@
 #include "Resource_M.h"
 #include "Kismet/GameplayStatics.h"
 #include "BuildingPart.h"
+#include "PlayerWidget.h"
 #include "PlayerChar.generated.h"
 
 UCLASS()
@@ -87,6 +88,9 @@ public:
 	UPROPERTY() // Spawn part at certain location
 		ABuildingPart* spawnedPart; 
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPlayerWidget* playerUI;
+
 	UFUNCTION(BlueprintCallable) // Sets function for health, hunger, and stamina
 		void SetHealth(float amount);
 
@@ -108,6 +112,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SpawnBuilding(int buildingID, bool& isSuccess);
 
-	UFUNCTION()
+	UFUNCTION() // Function for rotate building
 		void RotateBuilding();
 };

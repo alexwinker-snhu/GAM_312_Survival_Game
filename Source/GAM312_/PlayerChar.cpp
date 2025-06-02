@@ -36,6 +36,8 @@ void APlayerChar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	playerUI->UpdateBars(Health, Hunger, Stamina);
+
 	if (isBuilding)
 	{
 		if (spawnedPart)
@@ -201,7 +203,7 @@ void APlayerChar::GiveResource(float amount, FString resourceType) // creates re
 	}
 }
 
-void APlayerChar::UpdateResources(float woodAmount, float stoneAmount, FString buildingObject)
+void APlayerChar::UpdateResources(float woodAmount, float stoneAmount, FString buildingObject) // Updates Resources when building
 {
 	if (woodAmount <= ResourcesArray[0])
 	{
@@ -228,7 +230,7 @@ void APlayerChar::UpdateResources(float woodAmount, float stoneAmount, FString b
 	}
 }
 
-void APlayerChar::SpawnBuilding(int buildingID, bool& isSuccess)
+void APlayerChar::SpawnBuilding(int buildingID, bool& isSuccess) // Spawns Building
 {
 	if (!isBuilding)
 	{
@@ -252,7 +254,7 @@ void APlayerChar::SpawnBuilding(int buildingID, bool& isSuccess)
 	}
 }
 
-void APlayerChar::RotateBuilding()
+void APlayerChar::RotateBuilding() // Rotates Building
 {
 	if (isBuilding)
 	{
