@@ -29,6 +29,12 @@ void APlayerChar::BeginPlay()
 	FTimerHandle StatsTimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(StatsTimerHandle, this, &APlayerChar::DecreaseStats, 2.0f, true);
 
+	if (objWidget)
+	{
+		objWidget->UpdatebuildObj(0.0f);
+		objWidget->UpdatematOBJ(0.0f);
+	}
+
 }
 
 // Called every frame
@@ -121,6 +127,10 @@ void APlayerChar::FindObject()
 					{
 						GiveResource(resourceValue, hitName);
 
+						matsCollected = matsCollected + resourceValue;
+
+						objWidget->UpdatematOBJ(matsCollected);// shows how many materials we have collected
+
 						check(GEngine != nullptr);
 						GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Collected"));
 
@@ -133,6 +143,7 @@ void APlayerChar::FindObject()
 						HitResource->Destroy();
 						check(GEngine != nullptr);
 						GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Depleted"));
+
 					}
 				}
 			}
@@ -142,7 +153,9 @@ void APlayerChar::FindObject()
 	else 
 	{
 		isBuilding = false;
+		objectsBuilt = objectsBuilt + 1.0f;
 		
+		objWidget->UpdatebuildObj(objectsBuilt);
 	}
 }
 
